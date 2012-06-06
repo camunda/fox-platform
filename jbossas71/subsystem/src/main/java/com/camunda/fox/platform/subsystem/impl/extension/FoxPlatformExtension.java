@@ -60,8 +60,6 @@ public class FoxPlatformExtension implements Extension {
     // Process engines
     final ManagementResourceRegistration processEnginesRegistration = rootRegistration.registerSubModel(new ProcessEnginesResourceDefinition());
     
-    // Job executor
-    
     
     // THINK: here we could add handlers for additional read-write attributes. They would react to a change in the model. 
     // A process engine is mostly read only. However, I could imagine values like the locktime of the jobexecutor to be configurable here.
