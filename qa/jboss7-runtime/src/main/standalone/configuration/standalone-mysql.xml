@@ -306,7 +306,7 @@
                 <process-engines>
                     <process-engine name="default" default="true">
                         <datasource>java:jboss/datasources/FoxEngineDS</datasource>
-                        <history-level>audit</history-level>
+                        <history-level>full</history-level>
                     </process-engine>
                 </process-engines>
         </subsystem>
