@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.camunda.fox.platform.subsystem.impl.platform;
+package com.camunda.fox.platform.subsystem.impl.service;
 
 import javax.sql.DataSource;
 import javax.transaction.TransactionManager;
@@ -36,7 +36,7 @@ import com.camunda.fox.platform.subsystem.impl.util.Tccl.Operation;
 /**
  * @author Daniel Meyer
  */
-public class ProcessEngineControllerService extends ProcessEngineController implements Service<ProcessEngineControllerService> {
+public class ContainerProcessEngineController extends ProcessEngineController implements Service<ContainerProcessEngineController> {
     
   // Injecting these values makes the MSC aware of our dependencies on these resources.
   // This ensures that they are available when this service is started
@@ -44,7 +44,7 @@ public class ProcessEngineControllerService extends ProcessEngineController impl
   private final InjectedValue<DataSourceReferenceFactoryService> datasourceBinderServiceInjector = new InjectedValue<DataSourceReferenceFactoryService>();
   private final InjectedValue<ContainerPlatformService> containerPlatformServiceInjector = new InjectedValue<ContainerPlatformService>();
   
-  public ProcessEngineControllerService(ProcessEngineConfiguration processEngineConfiguration) {
+  public ContainerProcessEngineController(ProcessEngineConfiguration processEngineConfiguration) {
     super(processEngineConfiguration);
   }
   
@@ -52,7 +52,7 @@ public class ProcessEngineControllerService extends ProcessEngineController impl
     return ServiceName.of("foxPlatform", "processEngineController", engineName);
   }
 
-  public ProcessEngineControllerService getValue() throws IllegalStateException, IllegalArgumentException {
+  public ContainerProcessEngineController getValue() throws IllegalStateException, IllegalArgumentException {
     return this;
   }
   
@@ -69,7 +69,7 @@ public class ProcessEngineControllerService extends ProcessEngineController impl
         start();
         return null;
       }
-    }, ProcessEngineControllerService.class.getClassLoader());   
+    }, ContainerProcessEngineController.class.getClassLoader());   
   }
   
   protected void initProcessEngineConfiguration() {

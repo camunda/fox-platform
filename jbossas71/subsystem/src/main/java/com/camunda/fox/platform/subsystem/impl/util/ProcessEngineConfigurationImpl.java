@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.camunda.fox.platform.subsystem.impl.platform;
+package com.camunda.fox.platform.subsystem.impl.util;
 
 import java.util.Map;
 
