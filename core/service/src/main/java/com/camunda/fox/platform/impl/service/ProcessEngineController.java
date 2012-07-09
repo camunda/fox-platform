@@ -28,8 +28,6 @@ import java.util.logging.Logger;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
 import org.activiti.engine.impl.cfg.ProcessEngineConfigurationImpl;
-import org.activiti.engine.impl.cmd.GetDeploymentProcessDefinitionCmd;
-import org.activiti.engine.impl.context.Context;
 import org.activiti.engine.impl.interceptor.Command;
 import org.activiti.engine.impl.interceptor.CommandContext;
 import org.activiti.engine.impl.jobexecutor.JobExecutor;
@@ -41,7 +39,6 @@ import com.camunda.fox.platform.FoxPlatformException;
 import com.camunda.fox.platform.impl.configuration.spi.ProcessEngineConfigurationFactory;
 import com.camunda.fox.platform.impl.context.ProcessArchiveContext;
 import com.camunda.fox.platform.impl.deployment.ActivitiDeployer;
-import com.camunda.fox.platform.impl.engine.ProcessArchiveProcessEngine;
 import com.camunda.fox.platform.impl.schema.DbSchemaOperations;
 import com.camunda.fox.platform.impl.service.spi.PlatformServiceExtension;
 import com.camunda.fox.platform.impl.util.PlatformServiceExtensionHelper;
@@ -240,11 +237,10 @@ public class ProcessEngineController {
       for (ProcessDefinition processDefinition : processDefinitionsForThisDeployment) {
         installedProcessArchivesByProcessDefinitionKey.put(processDefinition.getKey(), processArchiveContext);
       }
-      ProcessArchiveProcessEngine processEngineProxy = new ProcessArchiveProcessEngine(processArchiveContext, activitiProcessEngine);
-      log.info("Installed process archive '" + paName + "'");
-      return processEngineProxy;
+      log.info("Installed process archive '" + paName + "' to process engine '"+processEngineName+"'.");
+      return activitiProcessEngine;
     } else {      
-      log.info("Installed empty process archive '"+paName+"'. Process archive will have access to global process engine.");
+      log.info("Installed empty process archive '"+paName+"'. Process archive will have access to process engine with name '"+processEngineName+"'.");
       return activitiProcessEngine;
     }
   }
