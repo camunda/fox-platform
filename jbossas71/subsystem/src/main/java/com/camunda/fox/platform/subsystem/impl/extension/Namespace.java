@@ -18,62 +18,55 @@ package com.camunda.fox.platform.subsystem.impl.extension;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.jboss.as.controller.AttributeDefinition;
-
 /**
- * An attribute.
+ * An Element.
  * 
  * @author christian.lipphardt@camunda.com
  */
-public enum Attribute {
+public enum Namespace {
   /**
    * always first
    */
   UNKNOWN((String) null),
   
-  NAME(ModelConstants.NAME),
-  DEFAULT(ModelConstants.DEFAULT);
-
+  FOX_PLATFORM_1_0("urn:com.camunda.fox.fox-platform:1.0"),
+  FOX_PLATFORM_1_1("urn:com.camunda.fox.fox-platform:1.1");
+  
+  /**
+   * The current namespace version.
+   */
+  
+  public static final Namespace CURRENT = FOX_PLATFORM_1_1;
+  
   private final String name;
-  private final AttributeDefinition definition;
 
-  Attribute(final String name) {
+  Namespace(final String name) {
     this.name = name;
-    this.definition = null;
-  }
-
-  Attribute(final AttributeDefinition definition) {
-    this.name = definition.getXmlName();
-    this.definition = definition;
   }
 
   /**
-   * Get the local name of this element.
-   * 
-   * @return the local name
+   * Get the URI of this element.
+   * @return the URI
    */
-  public String getLocalName() {
+  public String getUriString() {
     return name;
   }
 
-  public AttributeDefinition getDefinition() {
-    return definition;
-  }
-
-  private static final Map<String, Attribute> MAP;
+  private static final Map<String, Namespace> MAP;
 
   static {
-    final Map<String, Attribute> map = new HashMap<String, Attribute>();
-    for (Attribute element : values()) {
-      final String name = element.getLocalName();
-      if (name != null)
+    final Map<String, Namespace> map = new HashMap<String, Namespace>();
+    for (Namespace element : values()) {
+      final String name = element.getUriString();
+      if (name != null) {
         map.put(name, element);
+      }
     }
     MAP = map;
   }
 
-  public static Attribute forName(String localName) {
-    final Attribute element = MAP.get(localName);
+  public static Namespace forUri(String uri) {
+    final Namespace element = MAP.get(uri);
     return element == null ? UNKNOWN : element;
   }
 

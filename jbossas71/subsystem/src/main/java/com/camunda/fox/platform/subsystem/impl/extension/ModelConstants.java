@@ -25,12 +25,8 @@ package com.camunda.fox.platform.subsystem.impl.extension;
 public interface ModelConstants {
   
   // elements
-  public final static String ACQUISITION_STRATEGY = "acquisition-strategy";
   public final static String DATASOURCE = "datasource";
   public final static String HISTORY_LEVEL = "history-level";
-  public final static String JOB_ACQUISITION = "job-acquisition";
-  public final static String JOB_ACQUISITIONS = "job-acquisitions";
-  public final static String JOB_EXECUTOR = "job-executor";
   public final static String PROCESS_ENGINE = "process-engine";
   public final static String PROCESS_ENGINES = "process-engines";
   public final static String PROPERTY = "property";
@@ -39,6 +35,8 @@ public interface ModelConstants {
   // attributes
   public final static String DEFAULT = "default";
   public final static String NAME = "name";
-  public final static String THREAD_POOL_NAME = "thread-pool-name";
+
+  /** The name of our subsystem within the model. */
+  public static final String SUBSYSTEM_NAME = "fox-platform";
   
 }

@@ -37,11 +37,8 @@ import com.camunda.fox.platform.subsystem.impl.extension.resource.ProcessEngines
  */
 public class FoxPlatformExtension implements Extension {
 
-  /** The name space used for the {@code subsystem} element */
-  public static final String NAMESPACE = "urn:com.camunda.fox.fox-platform:1.0";
-
-  /** The name of our subsystem within the model. */
-  public static final String SUBSYSTEM_NAME = "fox-platform";
+  public static final int FOX_PLATFORM_SUBSYSTEM_MAJOR_VERSION = 1;
+  public static final int FOX_PLATFORM_SUBSYSTEM_MINOR_VERSION = 1;
   
   /** The parser used for parsing our subsystem */
   private final FoxPlatformParser parser = new FoxPlatformParser();
@@ -50,14 +47,14 @@ public class FoxPlatformExtension implements Extension {
 
   public void initialize(ExtensionContext context) {
     // Register the subsystem and operation handlers
-    SubsystemRegistration subsystem = context.registerSubsystem(SUBSYSTEM_NAME, 1, 0);
+    SubsystemRegistration subsystem = context.registerSubsystem(ModelConstants.SUBSYSTEM_NAME, FOX_PLATFORM_SUBSYSTEM_MAJOR_VERSION, FOX_PLATFORM_SUBSYSTEM_MINOR_VERSION);
     subsystem.registerXMLElementWriter(parser);
     
     // Root resource
     final ManagementResourceRegistration rootRegistration = subsystem.registerSubsystemModel(FoxPlatformSubsystemRootResourceDefinition.INSTANCE);
     rootRegistration.registerOperationHandler(DESCRIBE, FoxPlatformSubsystemDescribe.INSTANCE, FoxPlatformSubsystemDescribe.INSTANCE, false, OperationEntry.EntryType.PRIVATE);
     
-    // Process engines
+    // Process Engine
     final ManagementResourceRegistration processEnginesRegistration = rootRegistration.registerSubModel(new ProcessEnginesResourceDefinition());
     
     
@@ -69,7 +66,8 @@ public class FoxPlatformExtension implements Extension {
   }
 
   public void initializeParsers(ExtensionParsingContext context) {
-    context.setSubsystemXmlMapping(SUBSYSTEM_NAME, NAMESPACE, parser);
+    context.setSubsystemXmlMapping(ModelConstants.SUBSYSTEM_NAME, Namespace.FOX_PLATFORM_1_0.getUriString(), parser);
+    context.setSubsystemXmlMapping(ModelConstants.SUBSYSTEM_NAME, Namespace.FOX_PLATFORM_1_1.getUriString(), parser);
   }
 
   public static ResourceDescriptionResolver getResourceDescriptionResolver(String keyPrefix) {

@@ -39,7 +39,9 @@ import org.jboss.msc.service.StartException;
 import org.jboss.msc.service.StopContext;
 
 import com.camunda.fox.platform.FoxPlatformException;
+import com.camunda.fox.platform.impl.context.ProcessArchiveContext;
 import com.camunda.fox.platform.impl.service.PlatformService;
+import com.camunda.fox.platform.impl.service.ProcessEngineController;
 import com.camunda.fox.platform.spi.ProcessEngineConfiguration;
 import com.camunda.fox.platform.subsystem.impl.util.PlatformServiceReferenceFactory;
 import com.camunda.fox.platform.subsystem.impl.util.ServiceListenerFuture;
@@ -125,8 +127,6 @@ public class ContainerPlatformService extends PlatformService implements Service
     processArchiveServiceBinding.setMode(Mode.REMOVE);
   }
   
-  
-
   public Future<ProcessEngineStartOperation> startProcessEngine(ProcessEngineConfiguration processEngineConfiguration) {    
   
     final ContainerProcessEngineController processEngineController = new ContainerProcessEngineController(processEngineConfiguration);    
@@ -184,7 +184,6 @@ public class ContainerPlatformService extends PlatformService implements Service
     } 
   }
 
-
   private boolean isDown(Substate state) {
     return state.equals(Substate.DOWN)||state.equals(Substate.REMOVED);
   }
@@ -195,6 +194,17 @@ public class ContainerPlatformService extends PlatformService implements Service
   
   public static ServiceName getServiceName() {
     return ServiceName.of("foxPlatform", "platformService");
+  }
+
+  public ProcessArchiveContext getProcessArchiveContext(String processArchiveName, String processEngineName) {
+    ContainerProcessEngineController processEngineController = (ContainerProcessEngineController) processEngineRegistry.getProcessEngineController(processEngineName);
+    
+    if(processEngineController == null) {      
+      return null;
+    }
+    
+    return processEngineController.getProcessArchiveContextByName(processArchiveName);
+    
   }
 
 }

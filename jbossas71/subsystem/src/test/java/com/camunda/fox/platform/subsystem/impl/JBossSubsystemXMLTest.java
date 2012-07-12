@@ -26,6 +26,7 @@ import org.junit.Test;
 
 import com.camunda.fox.platform.FoxPlatformException;
 import com.camunda.fox.platform.subsystem.impl.extension.FoxPlatformExtension;
+import com.camunda.fox.platform.subsystem.impl.extension.ModelConstants;
 
 /**
  *
@@ -41,7 +42,7 @@ public class JBossSubsystemXMLTest extends AbstractSubsystemTest {
   public static final String SUBSYSTEM_WITH_DUPLICATE_ENGINE_NAMES = "subsystemWithDuplicateEngineNames.xml";
 
   public JBossSubsystemXMLTest() {
-    super(FoxPlatformExtension.SUBSYSTEM_NAME, new FoxPlatformExtension());
+    super(ModelConstants.SUBSYSTEM_NAME, new FoxPlatformExtension());
   }
 
   @Test

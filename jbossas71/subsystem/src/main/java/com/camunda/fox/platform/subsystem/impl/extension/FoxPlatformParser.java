@@ -58,7 +58,7 @@ public class FoxPlatformParser implements XMLStreamConstants, XMLElementReader<L
 
     //Add the main subsystem 'add' operation
     final ModelNode subsystemAddress = new ModelNode();
-    subsystemAddress.add(SUBSYSTEM, FoxPlatformExtension.SUBSYSTEM_NAME);
+    subsystemAddress.add(SUBSYSTEM, ModelConstants.SUBSYSTEM_NAME);
     subsystemAddress.protect();
     
     final ModelNode subsystemAdd = new ModelNode();
@@ -71,9 +71,6 @@ public class FoxPlatformParser implements XMLStreamConstants, XMLElementReader<L
       switch (element) {
         case PROCESS_ENGINES: {
           parseProcessEngines(reader, list, subsystemAddress);
-          break;
-        }
-        case JOB_EXECUTOR: {
           break;
         }
         default: {
@@ -129,7 +126,7 @@ public class FoxPlatformParser implements XMLStreamConstants, XMLElementReader<L
     ModelNode addProcessEngine = new ModelNode();
     addProcessEngine.get(OP).set(ModelDescriptionConstants.ADD);
     PathAddress addr = PathAddress.pathAddress(
-            PathElement.pathElement(SUBSYSTEM, FoxPlatformExtension.SUBSYSTEM_NAME),
+            PathElement.pathElement(SUBSYSTEM, ModelConstants.SUBSYSTEM_NAME),
             PathElement.pathElement(Element.PROCESS_ENGINES.getLocalName(), engineName));
     addProcessEngine.get(OP_ADDR).set(addr.toModelNode());
  
@@ -213,18 +210,6 @@ public class FoxPlatformParser implements XMLStreamConstants, XMLElementReader<L
 
     parentAddress.get(name).set(value);
   }
-
-  private void parseJobExecutor(XMLExtendedStreamReader reader, List<ModelNode> list) throws XMLStreamException {
-    // TODO: implement
-  }
-
-  private void parseJobAcquisitions(XMLExtendedStreamReader reader, List<ModelNode> list) throws XMLStreamException {
-    // TODO: implement
-  }
-
-  private void parseJobAcquisition(XMLExtendedStreamReader reader, List<ModelNode> list) throws XMLStreamException {
-    // TODO: implement
-  }
   
   private void parseElement(Element element, XMLExtendedStreamReader reader, ModelNode parentAddress) throws XMLStreamException {
     if (!element.equals(Element.forName(reader.getLocalName()))) {
@@ -238,11 +223,19 @@ public class FoxPlatformParser implements XMLStreamConstants, XMLElementReader<L
   @Override
   public void writeContent(final XMLExtendedStreamWriter writer, final SubsystemMarshallingContext context) throws XMLStreamException {
 
-    context.startSubsystemElement(FoxPlatformExtension.NAMESPACE, false);
+    context.startSubsystemElement(Namespace.CURRENT.getUriString(), false);
 
-    ModelNode node = context.getModelNode();
+    writeProcessEnginesContent(writer, context);
+    
+    // end subsystem
+    writer.writeEndElement();
+  }
+  
+  private void writeProcessEnginesContent(final XMLExtendedStreamWriter writer, final SubsystemMarshallingContext context) throws XMLStreamException {
     
     writer.writeStartElement(Element.PROCESS_ENGINES.getLocalName());
+
+    ModelNode node = context.getModelNode();
     
     ModelNode processEngineConfigurations = node.get(Element.PROCESS_ENGINES.getLocalName());
     if (processEngineConfigurations.isDefined()) {
@@ -262,9 +255,6 @@ public class FoxPlatformParser implements XMLStreamConstants, XMLElementReader<L
       }
     }
     // end process-engines
-    writer.writeEndElement();
-    
-    // end subsystem
     writer.writeEndElement();
   }
 
