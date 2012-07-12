@@ -7,9 +7,9 @@
 	<packaging>war</packaging>
 	
 	<properties>
-		<jboss.location>../../qa/jboss7-runtime/target/jboss-as-7.1.0.Final/</jboss.location>
-		<jboss.port>21009</jboss.port>
-		<jboss.configuration>standalone-h2.xml</jboss.configuration>
+    <server.location>../../qa/jboss7-runtime/target/jboss-as-7.1.0.Final/</server.location>
+    <server.port>21009</server.port>
+    <server.configuration>standalone-h2.xml</server.configuration>
 	</properties>
 	
 	<parent>
@@ -17,7 +17,7 @@
 		<artifactId>fox-platform-root</artifactId>
 		<version>1.26.0-SNAPSHOT</version>
 		<relativePath>../../parent</relativePath>
-    </parent>
+  </parent>
 
 	<dependencies>
 		<dependency>
@@ -54,58 +54,50 @@
 			</exclusions>
 		</dependency>		
 		
-	    <dependency>
-	      <groupId>org.jboss.arquillian.junit</groupId>
-	      <artifactId>arquillian-junit-container</artifactId>
-	      <scope>test</scope>
-	    </dependency>
-	    
-		<dependency>
-	      <groupId>org.jboss.jsfunit</groupId>
-	      <artifactId>jboss-jsfunit-core</artifactId>
-	      <version>2.0.0.Beta2</version>
-	      <scope>test</scope>
-	      <exclusions>
-	      	<exclusion>
-	      		<artifactId>commons-io</artifactId>
-	      		<groupId>commons-io</groupId>
-	      	</exclusion>
-	      </exclusions>
-	    </dependency>
-	    
-	    <dependency>
-			<groupId>org.jboss.jsfunit</groupId>
-			<artifactId>jsfunit-arquillian</artifactId>
-			<version>2.0.0.Beta2</version>
-			<scope>test</scope>
-		</dependency>
-	    
-		<dependency>
-	      <groupId>junit</groupId>
-	      <artifactId>junit</artifactId>
-	      <version>4.8.2</version>
-	      <scope>test</scope>
-	    </dependency>
+    <dependency>
+      <groupId>org.jboss.arquillian.junit</groupId>
+      <artifactId>arquillian-junit-container</artifactId>
+      <scope>test</scope>
+    </dependency>
 
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>1.4</version>
-			<scope>test</scope>
-		</dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jboss.arquillian.extension</groupId>
+      <artifactId>arquillian-drone-impl</artifactId>
+      <scope>test</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.jboss.arquillian.extension</groupId>
+      <artifactId>arquillian-drone-webdriver-depchain</artifactId>
+      <type>pom</type>
+      <scope>test</scope>
+    </dependency>
 	</dependencies>
-	
-	<dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.jboss.arquillian</groupId>
-                <artifactId>arquillian-bom</artifactId>
-                <version>1.0.0.CR7</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.jboss.arquillian</groupId>
+        <artifactId>arquillian-bom</artifactId>
+        <version>${version.arquillian}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.arquillian.extension</groupId>
+        <artifactId>arquillian-drone-bom</artifactId>
+        <version>1.0.0.Final</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
 	<build>	
 		<testResources>
@@ -136,10 +128,8 @@
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
 			</plugin>
-
 		</plugins>
 	</build>
-	
 	
 	<profiles>
 		<profile>
@@ -190,8 +180,6 @@
 				server uses a local maven repository. This allows us to give the arquillian 
 				maven resolver access to the artifacts produced by this build. -->
 			<id>ci</id>
-			<activation>
-			</activation>
 			<build>
 				<plugins>
 					<plugin>
@@ -208,5 +196,4 @@
 			</build>
 		</profile>
 	</profiles>
-
 </project>
