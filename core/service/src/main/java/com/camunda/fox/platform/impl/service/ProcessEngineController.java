@@ -76,6 +76,7 @@ public class ProcessEngineController {
   
   protected String datasourceJndiName;
   protected boolean isAutoUpdateSchema;
+  protected boolean isIdentityUsed;
   protected String history;
   protected String databaseTablePrefix;
 
@@ -95,6 +96,7 @@ public class ProcessEngineController {
     this.processEngineName = processEngineConfiguration.getProcessEngineName();
     this.datasourceJndiName = processEngineConfiguration.getDatasourceJndiName();
     this.isAutoUpdateSchema = PropertyHelper.getProperty(processEngineConfiguration.getProperties(), ProcessEngineConfiguration.PROP_IS_AUTO_SCHEMA_UPDATE, false);
+    this.isIdentityUsed = PropertyHelper.getProperty(processEngineConfiguration.getProperties(), ProcessEngineConfiguration.PROP_IS_IDENTITY_USED, true);
     this.activateJobExecutor = PropertyHelper.getProperty(processEngineConfiguration.getProperties(), ProcessEngineConfiguration.PROP_IS_ACTIVATE_JOB_EXECUTOR, false);
     this.databaseTablePrefix = PropertyHelper.getProperty(processEngineConfiguration.getProperties(), ProcessEngineConfiguration.PROP_DB_TABLE_PREFIX, null);
     this.history = processEngineConfiguration.getHistoryLevel();    
@@ -185,11 +187,17 @@ public class ProcessEngineController {
     processEngineConfiguration = configurationFactory.getProcessEngineConfiguration();
     processEngineConfiguration.setProcessEngineName(processEngineName);
     processEngineConfiguration.setDataSourceJndiName(datasourceJndiName);
-    processEngineConfiguration.setJobExecutorActivate(activateJobExecutor);    
-    processEngineConfiguration.setDatabaseSchemaUpdate("false");  // never perform operations with this PEC
+    processEngineConfiguration.setJobExecutorActivate(activateJobExecutor);
+    
+    // disable Activiti schema mechanism complety, it should not even check anything
+    // we do this on our own, and at least https://jira.codehaus.org/browse/ACT-1062 makes problems
+    // with schema prefixes of multiple engines
+    processEngineConfiguration.setDatabaseSchemaUpdate("fox");
     if(databaseTablePrefix != null) {
       processEngineConfiguration.setDatabaseTablePrefix(databaseTablePrefix);
     }
+    processEngineConfiguration.setDbIdentityUsed(isIdentityUsed);
+
     processEngineConfiguration.setHistory(history);
   }
 
@@ -198,6 +206,7 @@ public class ProcessEngineController {
       log.info("now performing process engine auto schema update.");
       DbSchemaOperations dbSchemaOperations = new DbSchemaOperations();
       dbSchemaOperations.setHistory(history);
+      dbSchemaOperations.setDbIdentityUsed(isIdentityUsed);
       dbSchemaOperations.setDataSourceJndiName(datasourceJndiName);    
       dbSchemaOperations.update();      
     }
@@ -357,7 +366,6 @@ public class ProcessEngineController {
   public ProcessEngine getProcessEngine() {
     return activitiProcessEngine;
   }
-
   
   public Map<String, ProcessArchiveContext> getInstalledProcessArchivesByName() {
     return new HashMap<String, ProcessArchiveContext>(installedProcessArchivesByName);
@@ -394,6 +402,14 @@ public class ProcessEngineController {
   public void setAutoUpdateSchema(boolean isAutoUpdateSchema) {
     this.isAutoUpdateSchema = isAutoUpdateSchema;
   }
+  
+  public boolean isIdentityUsed() {
+    return isIdentityUsed;
+  }
+ 
+  public void setIdentityUsed(boolean isIdentityUsed) {
+    this.isIdentityUsed = isIdentityUsed;
+  }  
 
   public boolean isActivateJobExecutor() {
     return activateJobExecutor;
@@ -522,5 +538,5 @@ public class ProcessEngineController {
       }
     }
   }
-  
+
 }
