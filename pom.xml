@@ -19,6 +19,7 @@
     <module>jbossas71</module>
     <module>webapps/explorer</module>
     <module>examples</module>
+    <module>sql-script</module>
   </modules>
   
   <scm>
