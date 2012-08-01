@@ -9,7 +9,7 @@ create table ACT_HI_PROCVARIABLE (
     REV_ integer,
     TIME_ timestamp not null,
     BYTEARRAY_ID_ varchar(64),
-    DOUBLE_ double,
+    DOUBLE_ double precision,
     LONG_ bigint,
     TEXT_ varchar(4000),
     TEXT2_ varchar(4000),
