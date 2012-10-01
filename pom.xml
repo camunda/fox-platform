@@ -23,8 +23,8 @@
   </modules>
   
   <scm>
-   	<connection>scm:git:git@bitbucket.org:camunda/fox-platform-ce.git</connection>
-   	<developerConnection>scm:git:git@bitbucket.org:camunda/fox-platform-ce.git</developerConnection>
+   	<connection>scm:git:git@github.com:camunda/fox-platform.git</connection>
+   	<developerConnection>scm:git:git@github.com:camunda/fox-platform.git</developerConnection>
   </scm>
 
   <distributionManagement>
