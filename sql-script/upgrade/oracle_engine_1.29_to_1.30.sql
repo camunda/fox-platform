@@ -63,3 +63,12 @@ alter table ACT_RU_IDENTITYLINK
 
 alter table ACT_RU_IDENTITYLINK 
     modify USER_ID_ NVARCHAR2(255);
+
+
+----------------------------------------------
+-- revert introduction of new history level --
+
+update ACT_GE_PROPERTY
+  set VALUE_ = VALUE_ - 1,
+      REV_ = REV_ + 1
+  where NAME_ = 'historyLevel' and VALUE_ >= 2;

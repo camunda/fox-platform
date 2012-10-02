@@ -36,7 +36,7 @@ create index ACT_IDX_HI_PROCVAR_NAME_TYPE on ACT_HI_VARINST(NAME_, VAR_TYPE_);
 --   -    DUEDATE_ timestamp null,
 --   +    DUEDATE_ timestamp,
 
--------------------------------------------
+--------------------------------------------
 -- change column types in ACT_HI_TASKINST --
 
 alter table ACT_HI_TASKINST 
@@ -46,7 +46,7 @@ alter table ACT_HI_TASKINST
     alter column ASSIGNEE_ varchar(255);
 
 
--------------------------------------------
+----------------------------------------
 -- change column types in ACT_RU_TASK --
 
 alter table ACT_RU_TASK 
@@ -56,7 +56,7 @@ alter table ACT_RU_TASK
     alter column ASSIGNEE_ varchar(255);
 
 
--------------------------------------------
+------------------------------------------------
 -- change column types in ACT_RU_IDENTITYLINK --
 
 alter table ACT_RU_IDENTITYLINK 
@@ -64,3 +64,12 @@ alter table ACT_RU_IDENTITYLINK
 
 alter table ACT_RU_IDENTITYLINK 
     alter column USER_ID_ varchar(255);
+
+
+----------------------------------------------
+-- revert introduction of new history level --
+
+update ACT_GE_PROPERTY
+  set VALUE_ = VALUE_ - 1,
+      REV_ = REV_ + 1
+  where NAME_ = 'historyLevel' and VALUE_ >= 2;
