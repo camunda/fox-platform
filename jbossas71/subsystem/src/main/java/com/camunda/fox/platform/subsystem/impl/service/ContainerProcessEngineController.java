@@ -99,8 +99,4 @@ public class ContainerProcessEngineController extends ProcessEngineController im
     return containerPlatformServiceInjector;
   }
   
-  public ProcessArchiveContext getProcessArchiveContextByName(String processArchiveName) {
-    return installedProcessArchivesByName.get(processArchiveName);
-  }
-
 }
