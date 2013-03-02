@@ -18,6 +18,7 @@
     <module>qa</module>
     <module>jbossas71</module>
     <module>webapps/explorer</module>
+    <module>webapps/h2-webapp</module>    
     <module>examples</module>
     <module>sql-script</module>
   </modules>

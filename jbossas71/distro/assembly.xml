@@ -92,7 +92,15 @@
   </files>
 -->
   
+  
   <dependencySets>
+  	<dependencySet>
+  		<includes>
+  			<include>com.camunda.fox.platform:fox-platform-h2-webapp:war:*</include>
+  		</includes>
+  		<outputDirectory>server/jboss-as-${version.jboss.as}/standalone/deployments</outputDirectory>
+  	</dependencySet>
+
     <dependencySet>
       <includes>
         <include>com.camunda.fox.platform:fox-platform-explorer:war:*</include>
